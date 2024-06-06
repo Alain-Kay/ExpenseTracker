@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Repository;
+namespace App\Repositories;
 
+use App\Contracts\IncomeInterface;
 use App\Models\Income;
 
-class IncomeRepository implements IncomeRepositoryInteface
+class IncomeRepository implements IncomeInterface
 {
     /**
      * Retrieve all incomes.

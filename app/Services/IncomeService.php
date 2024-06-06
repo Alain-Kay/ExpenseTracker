@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Services;
-
-use App\Http\Repository\IncomeRepository;
+namespace App\Services;
+use App\Repositories\IncomeRepository;
 
 class IncomeService
 {
