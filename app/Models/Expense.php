@@ -20,6 +20,10 @@ class Expense extends Model
         'expense_date'
     ];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
   
     public function user()
     {
