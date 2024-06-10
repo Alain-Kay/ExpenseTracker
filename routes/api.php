@@ -9,10 +9,10 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::get('/income', [IncomeController::class, 'index']);
-Route::post('/income/store', [IncomeController::class, 'store']);
-Route::put('/income/update/{id}', [IncomeController::class, 'update']);
-Route::delete('/income/delete/{id}', [IncomeController::class, 'delete']);
+Route::get('/income', [IncomeController::class, 'getIncomes']);
+Route::post('/income/store', [IncomeController::class, 'createNewIncome']);
+Route::put('/income/update/{id}', [IncomeController::class, 'updateIncome']);
+Route::delete('/income/delete/{id}', [IncomeController::class, 'deleteIncome']);
 Route::get('/expense', [ExpenseController::class, 'getExpenses']);
 Route::post('/expense/store', [ExpenseController::class, 'createNewExpense']);
 Route::put('/expense/update/{id}', [ExpenseController::class, 'updateExpense']);

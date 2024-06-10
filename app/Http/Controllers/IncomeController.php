@@ -24,7 +24,7 @@ class IncomeController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function getIncommes()
     {
         $incomes = $this->incomeService->getAllIncomes();
 
@@ -46,7 +46,7 @@ class IncomeController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function createNewIncome(Request $request)
     {
         // Validate the request data
         $validation = Validator::make(
@@ -95,7 +95,7 @@ class IncomeController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $id)
+    public function updateIncome(Request $request, $id)
     {
         // Validate the request data
         $validation = Validator::make(
@@ -147,7 +147,7 @@ class IncomeController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function delete($id)
+    public function deleteIncome($id)
     {
         $income = $this->incomeService->deleteIncomeById($id);
         if ($income) {
