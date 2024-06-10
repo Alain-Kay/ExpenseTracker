@@ -9,14 +9,25 @@ use Illuminate\Support\Facades\Validator;
 
 class IncomeController extends Controller
 {
+    /**
+     * Constructor to initialize the IncomeService.
+     *
+     * @param IncomeService $incomeService
+     */
     public function __construct(
         protected IncomeService $incomeService
     ) {
     }
 
+    /**
+     * Retrieve all incomes.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function index()
     {
         $incomes = $this->incomeService->getAllIncomes();
+
         if ($incomes->isEmpty()) {
             return response()->json([
                 'message' => 'No incomes found',
@@ -29,8 +40,15 @@ class IncomeController extends Controller
         ], Response::HTTP_OK);
     }
 
+    /**
+     * Create a new income.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store(Request $request)
     {
+        // Validate the request data
         $validation = Validator::make(
             $request->only(
                 'income_category_id',
@@ -59,18 +77,27 @@ class IncomeController extends Controller
             );
         }
 
+        // Get the validated data
         $validatedData = $validation->validated();
-
-        $this->incomeService->createNewIncome($validatedData);
+        $income = $this->incomeService->createNewIncome($validatedData);
 
         return response()->json([
             'message' => 'Income created successfully',
+            'income' => $income,
             'response' => 'success',
         ]);
     }
 
+    /**
+     * Update an existing income.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function update(Request $request, $id)
     {
+        // Validate the request data
         $validation = Validator::make(
             $request->only(
                 'income_category_id',
@@ -91,35 +118,39 @@ class IncomeController extends Controller
                 'income_date' => 'nullable',
             ]
         );
-    
+
         if ($validation->fails()) {
             return response()->json(
                 $validation->errors(),
                 Response::HTTP_BAD_REQUEST
             );
         }
-    
+
         $validatedData = $validation->validated();
-    
-        $updatedIncome = $this->incomeService->updateExistingIncome($validatedData, $id);
-    
-        if ($updatedIncome) {
+        $income = $this->incomeService->updateExistingIncome($validatedData, $id);
+
+        if ($income) {
             return response()->json([
                 'message' => 'Income updated successfully',
                 'response' => 'success',
             ], Response::HTTP_OK);
         }
-    
+
         return response()->json([
             'message' => 'Income not found or could not be updated',
         ], Response::HTTP_NOT_FOUND);
     }
-    
+
+    /**
+     * Delete an existing income.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function delete($id)
     {
-        $deleted = $this->incomeService->deleteIncomeById($id);
-
-        if ($deleted) {
+        $income = $this->incomeService->deleteIncomeById($id);
+        if ($income) {
             return response()->json([
                 'message' => 'Income deleted successfully',
                 'response' => 'success',
